@@ -3,14 +3,14 @@ import arcade
 
 class Apple(arcade.Sprite):
     def __init__(self, w, h):
-        arcade.Sprite.__init(self)
+        arcade.Sprite.__init__(self)
         self.image = 'apple.jpg'
-        self.pear = arcade.Sprite(self.image, 0.1)
-        self.pear.center_x = random.randint(25, w + 5)
-        self.pear.center_y = random.randint(25, h + 5)
+        self.apple = arcade.Sprite(self.image, 0.1)
+        self.apple.center_x = random.randint(25, w + 5)
+        self.apple.center_y = random.randint(25, h + 5)
 
     def draw(self):
-        arcade.apple.draw()
+        self.apple.draw()
     
 class Snake(arcade.Sprite):
     def __init__(self, w, h):
@@ -69,8 +69,8 @@ class Pear(arcade.Sprite):
 class Thorn(arcade.Sprite):
     def __init__(self, w, h):
         arcade.Sprite.__init__(self)
-        self.img = 'thron.jpg'
-        self.thorn = arcade.Sprite(self.img, 0.1)
+        self.image = 'thron.jpg'
+        self.thorn = arcade.Sprite(self.image, 0.1)
         self.thorn.center_x = random.randint(25, w + 5)
         self.thorn.center_y = random.randint(25, h + 5)
 
@@ -80,48 +80,52 @@ class Thorn(arcade.Sprite):
 class Game(arcade.Window):
     def __init__(self):
         arcade.Window.__init__(self,self.width,self.height,"python snake")
-        arcade.set_background_color(arcade.color.BLUE)
-        self.Snake = Snake(500,550)
+        arcade.set_background_color(arcade.color.GRAY)
+        self.snake = Snake(500,550)
         self.apple = Apple(500,550)
+        self.pear = Pear(500,550)
+        self.thorn = Thorn(500,550)
 
     def on_draw(self):
         arcade.start_render()
         self.snake.draw()
         self.apple.draw()
-
+        self.pear.draw()
+        self.thorn.draw()
+   
     def on_update(self,delta_time :float):
-        self.Snake.move()
+        self.snake.move()
         if arcade.check_for_collision(self.snake, self.pear):
-            self.Snake.eat("pear")
+            self.snake.eat("pear")
             self.pear = Pear(500,550)
             print(self.snake.score)
         elif arcade.check_for_collision(self.snake, self.apple):
-            self.Snake.eat("apple")
+            self.snake.eat("apple")
             self.apple = Apple(500,550)
             print(self.snake.score)
 
         elif arcade.check_for_collision(self.snake, self.thorn):
-            self.Snake.eat("thorn")
+            self.snake.eat("thorn")
             self.thorn = Thorn(500,550)
             print(self.snake.score)
 
     def on_key_release(self, key, modifires):
         
         if key == arcade.key.RIGHT:
-            self.Snake.change_x = 1
-            self.Snake.change_y= 0
+            self.snake.change_x = 1
+            self.snake.change_y= 0
 
         elif key == arcade.key.UP:
-            self.Snake.change_x = 0
-            self.Snake.change_y= 1
+            self.snake.change_x = 0
+            self.snake.change_y= 1
 
         elif key == arcade.key.LEFT:
-            self.Snake.change_x = -1
-            self.Snake.change_y= 0
+            self.snake.change_x = -1
+            self.snake.change_y= 0
 
         elif key == arcade.key.DOWN:
-            self.Snake.change_x = 0
-            self.Snake.change_y= -1
+            self.snake.change_x = 0
+            self.snake.change_y= -1
 
         else:
             print(" input not key")
